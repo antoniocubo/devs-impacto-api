@@ -9,8 +9,7 @@ class ArticleResponseDto extends Data
 {
     public function __construct(
         public string $title,
-        #[MapOutputName('audio_url')]
-        public string $audioUrl,
+        public ?string $audio_url,
         public string $content
     ) {
     }

@@ -13,8 +13,8 @@ class ArticleService
     ) {
     }
 
-    public function getAll(): LengthAwarePaginator
+    public function getAll(string $title): LengthAwarePaginator
     {
-        return $this->articleRepository->findAll();
+        return $this->articleRepository->findAll($title);
     }
 }

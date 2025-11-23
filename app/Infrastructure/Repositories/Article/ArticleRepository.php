@@ -7,8 +7,10 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class ArticleRepository
 {
-    public function findAll(): LengthAwarePaginator
+    public function findAll(string $title): LengthAwarePaginator
     {
-       return Article::query()->paginate(12);
+       return Article::query()
+           ->where('title', 'LIKE', '%' . $title . '%')
+           ->paginate(12);
     }
 }

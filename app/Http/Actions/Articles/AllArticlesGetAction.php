@@ -16,6 +16,6 @@ class AllArticlesGetAction
 
     public function __invoke(): JsonResponse
     {
-        return response()->json(ArticleResponseDto::collect($this->articleService->getAll()));
+        return response()->json(ArticleResponseDto::collect($this->articleService->getAll(request()->query('title'))));
     }
 }
