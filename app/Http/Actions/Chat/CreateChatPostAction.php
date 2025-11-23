@@ -3,7 +3,7 @@
 namespace App\Http\Actions\Chat;
 
 use App\Domain\Dtos\Chat\ChatResponseDto;
-use App\Infrastructure\Services\ChatService;
+use App\Infrastructure\Services\Chat\ChatService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 

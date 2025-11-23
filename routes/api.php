@@ -20,5 +20,7 @@ Route::prefix('v1')->group(function () {
     Route::prefix('chat')->middleware('auth:sanctum')->group(function () {
         Route::post('/create', [CreateChatPostAction::class, '__invoke'])
             ->middleware('auth:sanctum');
+        Route::post('send-message', [\App\Http\Actions\Chat\SendMessagePostAction::class, '__invoke'])
+            ->middleware('auth:sanctum');
     });
 });
