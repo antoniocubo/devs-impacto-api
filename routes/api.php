@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Actions\Chat\CreateChatPostAction;
 use App\Http\Actions\User\LoginPostAction;
 use App\Http\Actions\User\LogoutPostAction;
 use App\Http\Actions\User\RegisterUserPostAction;
@@ -16,4 +17,8 @@ Route::prefix('v1')->group(function () {
             ->middleware('auth:sanctum');
     });
 
+    Route::prefix('chat')->middleware('auth:sanctum')->group(function () {
+        Route::post('/create', [CreateChatPostAction::class, '__invoke'])
+            ->middleware('auth:sanctum');
+    });
 });

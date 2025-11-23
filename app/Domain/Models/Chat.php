@@ -9,12 +9,21 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Chat extends Model
 {
-    use HasUuids;
-
     protected $fillable = [
         'uuid',
         'user_id',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (empty($model->uuid)) {
+                $model->uuid = (string) \Illuminate\Support\Str::uuid();
+            }
+        });
+    }
 
     public function user(): BelongsTo
     {
@@ -25,4 +34,6 @@ class Chat extends Model
     {
         return $this->hasMany(ChatMessage::class);
     }
+
+
 }
