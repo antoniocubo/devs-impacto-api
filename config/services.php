@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'dados_abertos' => [
+        'api_url' => env('DADOS_ABERTOS_API_URL'),
+    ]
+
 ];

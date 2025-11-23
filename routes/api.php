@@ -3,6 +3,10 @@
 
 use App\Http\Actions\Articles\AllArticlesGetAction;
 use App\Http\Actions\Chat\CreateChatPostAction;
+use App\Http\Actions\Category\CreateCategoryPostAction;
+use App\Http\Actions\Category\ListCategoriesGetAction;
+use App\Http\Actions\Post\CreatePostPostAction;
+use App\Http\Actions\Post\ListPostsByCategoryGetAction;
 use App\Http\Actions\User\LoginPostAction;
 use App\Http\Actions\User\LogoutPostAction;
 use App\Http\Actions\User\RegisterUserPostAction;
@@ -29,5 +33,15 @@ Route::prefix('v1')->group(function () {
         Route::prefix('articles')->group(function () {
             Route::get('/all', [AllArticlesGetAction::class, '__invoke']);
         });
+    });
+
+    Route::prefix('posts')->group(function () {
+        Route::post('/', [CreatePostPostAction::class, '__invoke']);
+        Route::get('category/{categoryId}', [ListPostsByCategoryGetAction::class, '__invoke']);
+    });
+
+    Route::prefix('categories')->group(function () {
+        Route::post('/', [CreateCategoryPostAction::class, '__invoke']);
+        Route::get('/', [ListCategoriesGetAction::class, '__invoke']);
     });
 });

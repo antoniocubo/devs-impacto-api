@@ -3,10 +3,7 @@
 namespace App\Infrastructure\Services\User;
 
 use App\Domain\Dtos\User\UserResponseDto;
-use App\Enums\ApiStatus;
 use App\Infrastructure\Repositories\User\UserRepository;
-use App\Models\User;
-use App\Utils\OperationResult;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
