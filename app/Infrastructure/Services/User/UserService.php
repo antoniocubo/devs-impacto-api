@@ -25,6 +25,7 @@ readonly class UserService
         }
         return [
             'token' => Auth::user()->createToken('auth_token')->plainTextToken,
+            'user' => UserResponseDto::from(Auth::user()),
             'tokenType' => 'Bearer',
         ];
     }
