@@ -29,6 +29,6 @@ readonly class PostService
     {
         $posts = $this->postRepository->findByCategoryId($categoryId);
 
-        return PostResponseDto::collection($posts);
+        return PostResponseDto::collect($posts);
     }
 }

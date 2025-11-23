@@ -26,6 +26,6 @@ class CategoryService
     {
         $categories = $this->categoryRepository->all();
 
-        return CategoryResponseDto::collection($categories);
+        return CategoryResponseDto::collect($categories);
     }
 }

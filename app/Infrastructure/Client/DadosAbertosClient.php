@@ -12,50 +12,26 @@ class DadosAbertosClient
 {
     private string $baseUrl;
 
-    private const TIPOS_EVENTO_DELIBERATIVOS = [
-        '110', // Sessão Deliberativa
-        '112', // Reunião Deliberativa
-        '125', // Audiência Pública e Deliberação
-        '204', // Sessão Deliberativa
-        '210', // Tomada de Depoimento e Deliberação
-        '212', // Tom. Depoimento, Aud. Pública e Delib.
-    ];
-
     public function __construct(private readonly HttpFactory $httpClient)
     {
         $this->baseUrl = rtrim(config('services.dados_abertos.api_url'), '/');
     }
 
     /**
-     * Busca eventos na API da Câmara.
+     * Busca eventos na API da Câmara sem filtros adicionais.
      *
-     * @param  string|null  $dataInicio  (AAAA-MM-DD)
-     * @param  string|null  $dataFim     (AAAA-MM-DD)
-     * @param  array<string>|null $tiposEvento  Códigos dos tipos de evento (codTipoEvento)
-     *
+     * @param  int  $limit  Quantidade de registros desejada.
      * @return array
      */
-    public function getEvents(
-        ?string $dataInicio = null,
-        ?string $dataFim = null,
-        ?array $tiposEvento = null
-    ): array {
+    public function getEvents(int $limit = 100): array
+    {
+        $limit = max(1, $limit);
+
         $params = [
             'ordem'      => 'ASC',
             'ordenarPor' => 'dataHoraInicio',
+            'itens'      => $limit,
         ];
-
-        if ($dataInicio) {
-            $params['dataInicio'] = $dataInicio;
-        }
-
-        if ($dataFim) {
-            $params['dataFim'] = $dataFim;
-        }
-
-        if (!empty($tiposEvento)) {
-            $params['codTipoEvento'] = implode(',', $tiposEvento);
-        }
 
         $response = $this->makeRequest('GET', '/eventos', $params);
 
@@ -76,23 +52,18 @@ class DadosAbertosClient
     }
 
     /**
-     * Retorna apenas eventos deliberativos que tenham PLs na pauta.
+     * Retorna eventos que possuam proposições do tipo PL na pauta.
      *
      * Cada item do array de retorno tem:
      *  - 'evento'       => dados do evento
      *  - 'proposicoes'  => lista de proposições do tipo PL
      *
-     * @param  string|null $dataInicio
-     * @param  string|null $dataFim
+     * @param  int $limit  Número de eventos a buscar inicialmente.
      * @return array
      */
-    public function getPlEvents(?string $dataInicio = null, ?string $dataFim = null): array
+    public function getPlEvents(int $limit = 100): array
     {
-        $eventos = $this->getEvents(
-            dataInicio: $dataInicio,
-            dataFim: $dataFim,
-            tiposEvento: self::TIPOS_EVENTO_DELIBERATIVOS
-        );
+        $eventos = $this->getEvents(limit: $limit);
 
         $result = [];
 
