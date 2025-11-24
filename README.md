@@ -1,59 +1,116 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="320" alt="Laravel Logo">
 </p>
 
-## About Laravel
+<p align="center">
+  <strong>Devs Impacto API</strong><br>
+  Plataforma em Laravel para criação de posts, enquetes e interações sociais.
+</p>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## ✨ Visão Geral
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Esta API concentra toda a lógica de conteúdo da Devs Impacto: gerenciamento de posts por categoria, enquetes colaborativas, integração com o chat e relacionamento entre usuários e categorias através do recurso de “seguir”. O projeto foi estruturado sobre Laravel 12, Sanctum para autenticação e Spatie Laravel Data para validações/DTOs.
 
-## Learning Laravel
+## 🚀 Funcionalidades Principais
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+- **Autenticação & Gestão de Usuários** – Registro, login e proteção de rotas com Sanctum.
+- **Categorias & Posts** – CRUD de categorias, criação de posts, filtro por categoria e feed personalizado das categorias seguidas.
+- **Enquetes (Polls)** – Criação de enquetes, votos “a favor” ou “contra” e contagem automática.
+- **Chat & Conteúdo** – Integrações existentes para chat e artigos permanecem funcionais.
+- **Dados Abertos** – Cliente dedicado para buscar eventos da Câmara dos Deputados.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🛠️ Stack & Dependências
 
-## Laravel Sponsors
+| Camada | Tecnologias |
+| --- | --- |
+| Linguagem | PHP 8.2 + Laravel 12 |
+| Banco | PostgreSQL (ou compatível) |
+| Autenticação | Laravel Sanctum |
+| DTO/Validação | spatie/laravel-data |
+| Integrações | N8N, Dados Abertos Câmara, Supabase (DB hospedado) |
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 📦 Configuração do Ambiente
 
-### Premium Partners
+1. **Instale dependências**
+   ```bash
+   composer install
+   npm install
+   ```
+2. **Copie o `.env` e configure**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+   Ajuste as variáveis de conexão (`DB_*`, `SANCTUM_*`, `N8N_*`, etc.).
+3. **Migrar & Seed**
+   ```bash
+   php artisan migrate --seed
+   ```
+4. **Rodar a aplicação**
+   ```bash
+   php artisan serve
+   ```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## 🔐 Autenticação
 
-## Contributing
+- Rotas sensíveis (polls, follow de categorias, chat, etc.) requerem token Sanctum.
+- Para testar rapidamente utilize `php artisan tinker` ou Postman para gerar o token via `/api/v1/auth/login`.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 📚 Endpoints em Destaque
 
-## Code of Conduct
+| Recurso | Método | Rota | Descrição |
+| --- | --- | --- | --- |
+| Auth | `POST` | `/api/v1/auth/register` | Cria usuário |
+| Auth | `POST` | `/api/v1/auth/login` | Retorna token |
+| Posts | `POST` | `/api/v1/posts` | Cria post (requer `category_id`) |
+| Posts | `GET` | `/api/v1/posts/category/{id}` | Lista posts da categoria |
+| Categorias | `POST` | `/api/v1/categories/follow` | Segue categorias (logado) |
+| Categorias | `GET` | `/api/v1/categories/followed/posts` | Feed com posts das categorias seguidas |
+| Enquetes | `POST` | `/api/v1/polls` | Cria enquete |
+| Enquetes | `POST` | `/api/v1/polls/{pollId}/vote` | Vota (a favor/contra) |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+> Consulte `routes/api.php` para ver todas as rotas disponíveis.
 
-## Security Vulnerabilities
+## 🔄 Integração com N8N
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+O projeto expõe webhooks e eventos pensados para interagir com fluxos automatizados no **N8N**, permitindo:
 
-## License
+- Disparo automático ao criar posts ou enquetes (ex: enviar notificações).
+- Processamento de votos/opiniões para dashboards externos.
+- Sincronização de categorias seguidas com newsletters ou campanhas.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Fluxo da Integração
+
+1. **Webhook**: o N8N recebe payloads da API (via rotas ou Jobs).
+2. **Processamento**: o fluxo aplica regras de negócio, enriquece dados ou envia notificações.
+3. **Retorno/Feedback**: se necessário, o N8N chama endpoints de callback da API.
+
+> **Espaço reservado para vídeo**  
+> _(insira aqui o link/iframe do vídeo demonstrando o fluxo no N8N)_.
+
+## 🧪 Testes
+
+```bash
+php artisan test
+```
+
+Os testes básicos garantem que o ambiente está configurado corretamente. Expanda-os conforme novas features forem introduzidas.
+
+## 🗺️ Convenções & Estrutura
+
+- `app/Domain` – DTOs e Models.
+- `app/Infrastructure` – Services, Repositories e Clients externos.
+- `app/Http/Actions` – Actions por endpoint (inspirado em ADR).
+- `database/migrations` – Evolução de schema versionada.
+
+## 🤝 Contribuição
+
+1. Crie uma issue descrevendo a proposta.
+2. Abra um PR com testes e descrição detalhada.
+3. Use commits claros (ex: `feat(poll): add vote endpoint`).
+
+## 📄 Licença
+
+Projeto disponibilizado sob licença MIT. Veja o arquivo `LICENSE` para detalhes.
