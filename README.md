@@ -1,13 +1,12 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="320" alt="Laravel Logo">
-</p>
-
-<p align="center">
   <strong>Devs Impacto API</strong><br>
-  Plataforma em Laravel para criação de posts, enquetes e interações sociais.
+  API para criação de posts, enquetes e interações sociais.
 </p>
 
 ---
+
+
+
 
 ## ✨ Visão Geral
 
@@ -33,25 +32,16 @@ Esta API concentra toda a lógica de conteúdo da Devs Impacto: gerenciamento de
 
 ## 📦 Configuração do Ambiente
 
-1. **Instale dependências**
+1. **Rodar aplicação**
    ```bash
+   docker compose install
+   ```
+2. **Instale dependências**
+   ```bash
+   docker compose exec app bash
    composer install
-   npm install
    ```
-2. **Copie o `.env` e configure**
-   ```bash
-   cp .env.example .env
-   php artisan key:generate
-   ```
-   Ajuste as variáveis de conexão (`DB_*`, `SANCTUM_*`, `N8N_*`, etc.).
-3. **Migrar & Seed**
-   ```bash
-   php artisan migrate --seed
-   ```
-4. **Rodar a aplicação**
-   ```bash
-   php artisan serve
-   ```
+   
 
 ## 🔐 Autenticação
 
@@ -87,8 +77,8 @@ O projeto expõe webhooks e eventos pensados para interagir com fluxos automatiz
 2. **Processamento**: o fluxo aplica regras de negócio, enriquece dados ou envia notificações.
 3. **Retorno/Feedback**: se necessário, o N8N chama endpoints de callback da API.
 
-> **Espaço reservado para vídeo**  
-> _(insira aqui o link/iframe do vídeo demonstrando o fluxo no N8N)_.
+https://github.com/user-attachments/assets/2ac08146-707d-43b5-b05c-574bc705754b
+
 
 ## 🧪 Testes
 
