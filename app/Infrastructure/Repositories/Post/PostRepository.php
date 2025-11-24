@@ -23,4 +23,12 @@ class PostRepository
             ->where('category_id', $categoryId)
             ->get();
     }
+
+    public function findByCategoryIds(array $categoryIds): Collection
+    {
+        return $this->model::query()
+            ->whereIn('category_id', $categoryIds)
+            ->latest()
+            ->get();
+    }
 }

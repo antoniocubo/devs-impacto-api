@@ -4,7 +4,9 @@
 use App\Http\Actions\Articles\AllArticlesGetAction;
 use App\Http\Actions\Chat\CreateChatPostAction;
 use App\Http\Actions\Category\CreateCategoryPostAction;
+use App\Http\Actions\Category\FollowCategoriesPostAction;
 use App\Http\Actions\Category\ListCategoriesGetAction;
+use App\Http\Actions\Category\ListFollowedCategoriesPostsGetAction;
 use App\Http\Actions\Poll\CreatePollPostAction;
 use App\Http\Actions\Poll\ListPollsGetAction;
 use App\Http\Actions\Poll\VotePollPostAction;
@@ -46,6 +48,10 @@ Route::prefix('v1')->group(function () {
     Route::prefix('categories')->group(function () {
         Route::post('/', [CreateCategoryPostAction::class, '__invoke']);
         Route::get('/', [ListCategoriesGetAction::class, '__invoke']);
+        Route::post('follow', [FollowCategoriesPostAction::class, '__invoke'])
+            ->middleware('auth:sanctum');
+        Route::get('followed/posts', [ListFollowedCategoriesPostsGetAction::class, '__invoke'])
+            ->middleware('auth:sanctum');
     });
 
     Route::prefix('polls')->group(function () {
